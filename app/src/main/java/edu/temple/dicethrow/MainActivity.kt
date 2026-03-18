@@ -18,7 +18,14 @@ class MainActivity : AppCompatActivity() {
 
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainerView, DieFragment.newInstance(20))
+                .add(R.id.fragmentContainerView, DieFragment.newInstance(6))
+                .commit()
+        }
+        if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) == null) {
+
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragmentContainerView2, DieFragment.newInstance(10))
                 .commit()
         }
 
@@ -29,6 +36,10 @@ class MainActivity : AppCompatActivity() {
                     (this as DieFragment).throwDie() //casting as DieFragment bc current context is just a general fragment
                 }
             //dieFragment.throwDie()
+            supportFragmentManager
+                .findFragmentById(R.id.fragmentContainerView2)?.run{
+                    (this as DieFragment).throwDie() //casting as DieFragment bc current context is just a general fragment
+                }
         }
     }
 }
