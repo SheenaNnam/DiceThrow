@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,22 +14,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val rollButton = findViewById<Button>(R.id.rollDiceButton)
+        val dieViewModel = ViewModelProvider(this)[DieViewModel::class.java]
+
+        dieViewModel.setSides(20)
 
         if (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) == null) {
 
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainerView, DieFragment.newInstance(20))
+                .add(R.id.fragmentContainerView, DieFragment())
                 .commit()
         }
 
 
         rollButton.setOnClickListener {
-            supportFragmentManager
-                .findFragmentById(R.id.fragmentContainerView)?.run{
-                    (this as DieFragment).throwDie() //casting as DieFragment bc current context is just a general fragment
-                }
-            //dieFragment.throwDie()
+            dieViewModel.rollDie()
+
+            //or dieFragment.throwDie()
+
+
         }
     }
 }
